@@ -1,22 +1,155 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <style>
-    body {
-      padding: 0;
-      margin: 0;
-      overflow: hidden;
-      background-color: #ddd;
-    }
-  </style>
-  <body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+</head>
+<style>
+  @font-face {
+    font-family: FZNew BaoSong-Z12S;
+    font-weight: 200;
+    src: url('./FZNew BaoSong-Z12S.TTF');
+  }
+
+  body {
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    background-color: #ddd;
+    width: 100%;
+    height: 100vh;
+  }
+
+  #container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  input {
+    position: absolute;
+    z-index: 1000;
+  }
+
+  canvas {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 900;
+  }
+
+  #backgroundImg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 800;
+  }
+
+  #top {
+    position: absolute;
+    left: 45%;
+    z-index: 1000;
+    top: 10px;
+  }
+
+  #top :hover {
+    cursor: pointer;
+  }
+
+  #topLeft {
+    position: absolute;
+    font-size: 20px;
+    left: -50px;
+    top: 40px;
+  }
+
+  #topImg {
+    position: absolute;
+    width: 110px;
+    height: 110px;
+  }
+
+  #topRight {
+    position: absolute;
+    position: absolute;
+    font-size: 20px;
+    right: -160px;
+    top: 40px;
+  }
+
+  #topFont {
+    position: absolute;
+    color: white;
+    font-family: FZNew BaoSong-Z12S;
+    font-size: 36px;
+    top: 35px;
+    left: 37px;
+  }
+
+  #changeBtn {
+    position: absolute;
+    z-index: 1000;
+    left: 40%;
+  }
+</style>
+
+<body>
+  <div id="container">
+    <input type="color" value="#2291a9" />
     <canvas id="tree"></canvas>
+    <!-- 背景图片 -->
+    <img :src='imgArr1[index]' id="backgroundImg">
+    <!-- 顶部导航 -->
+    <div id="top">
+      <div id="topLeft" :style="{'color':btnColors[index]}" @click="prev">
+        < </div>
+          <img :src='imgArr2[index]' id="topImg">
+          <div id="topFont" :style="{'color':fontColors[index]}">{{fontArr[index]}}</div>
+          <div id="topRight" :style="{'color':btnColors[index]}" @click="next"> > </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <script>
+      let container = new Vue({
+        el: "#container",
+        data: {
+          fontArr: ['春', '夏', '秋', '冬', '黑', '白'],//主题名字
+          imgArr1: ['./pictures/spring1.png', './pictures/summer1.png', './pictures/autumn1.png', './pictures/winter1.png', './pictures/black1.png', './pictures/white1.png'],//背景图片
+          imgArr2: ['./pictures/spring.gif', './pictures/summer.gif', './pictures/autumn.gif', './pictures/winter.gif', './pictures/black.gif', './pictures/white.gif'],//春夏秋冬顶部导航图片
+          fontColors: ['rgba(255, 255, 255, 1)', 'rgba(50, 188, 187, 1)', 'rgb(202, 136, 89)', 'rgb(89, 89, 89)', 'rgb(255,255,255)', 'rgb(0,0,0)'],//春夏秋冬字体颜色
+          btnColors: ['rgba(255, 255, 255, 1)', 'rgba(255, 255, 255, 1)', 'rgba(255, 255, 255, 1)', 'rgba(218, 218, 218, 1)', 'rgb(255,255,255)', 'rgb(0,0,0)'],//切换的按钮的颜色
+          index: 0,
+        },
+        methods: {
+          next: function () {
+            if (this.index == this.imgArr1.length - 1) {
+              this.index = 0;
+            } else {
+              this.index++;
+            }
+            this.clearCanvas();
+          },
+          prev: function () {
+            if (this.index == 0) {
+              this.index = this.imgArr1.length - 1;
+            } else {
+              this.index--;
+            }
+            this.clearCanvas();
+          },
+          clearCanvas: function () {
+            var c = document.getElementById("tree");
+            var cxt = c.getContext("2d");
+            cxt.clearRect(0, 0, c.width, c.height);
+          }
+
+        }
+      })
       const width = window.innerWidth;
       const height = window.innerHeight;
       const canvas = document.getElementById('tree');
@@ -55,12 +188,12 @@
         this.ctx = canvas.getContext('2d');
         this.x = initX; //初始x坐标;
         this.y = height; //初始y坐标;
-        this.radius = 10; //初始树干半径
+        this.radius = 5; //初始树干半径
         this.angle = Math.PI / 2;
 
         this.fillStyle = '#000'; //树枝颜色
         this.shadowColor = '#000'; //树枝阴影颜色
-        this.shadowBlur = 2; //树枝阴影模糊度
+        this.shadowBlur = 0; //树枝阴影模糊度
 
         this.speed = width / 500; //生长速度
         this.generation = 1; //树枝的代
@@ -172,5 +305,6 @@
         }, 16.7);
       });
     </script>
-  </body>
+</body>
+
 </html>
