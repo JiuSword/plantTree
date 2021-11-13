@@ -198,6 +198,7 @@
         this.speed = width / 500; //生长速度
         this.generation = 1; //树枝的代
         this.distance = 0; //树枝长度
+        this.isBole = true ;
       }
 
       //树枝对象原型方法
@@ -265,22 +266,31 @@
 
           if (Math.random() < splitTime) {
             // 生成n个后代树枝
-            const n = 2 * this.generation + Math.round(Math.random() * 3);
-            for (let i = 0; i < n; i++) {
+            const n =  this.generation + Math.round(Math.random() * 2) + 1;
+            for (let i = 0; i < n - 1; i++) {
               const branch = new Branch();
               branch.x = this.x;
               branch.y = this.y;
               if (this.generation <= 2) {
                 branch.angle += Math.random() * Math.PI - Math.PI / 2;
               } else {
-                branch.angle += Math.random() * Math.PI * 2;
+                branch.angle += -Math.random() * Math.PI * 3 / 4 + Math.PI / 2;
               }
 
-              branch.radius = this.radius * 0.5; //枝条越来越细
+              branch.radius = this.radius * 0.7; //枝条越来越细
               branch.generation += this.generation;
               branch.fillStyle = this.fillStyle;
               branchSet.add(branch);
             }
+            const branch = new Branch();
+            branch.x = this.x;
+            branch.y = this.y;
+            branch.angle += Math.random() * Math.PI / 32 * 2;
+            this.speed = 1;
+            branch.radius = this.radius * 0.6; //枝条越来越细
+            branch.generation += this.generation;
+            branch.fillStyle = this.fillStyle;
+            branchSet.add(branch);
             branchSet.remove(this);
           }
         },
