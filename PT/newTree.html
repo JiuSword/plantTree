@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+</head>
+<style>
+  @font-face {
+    font-family: FZNew BaoSong-Z12S;
+    font-weight: 200;
+    src: url('./FZNew BaoSong-Z12S.TTF');
+  }
+
+  body {
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    background-color: #ddd;
+    width: 100%;
+    height: 100vh;
+  }
+
+  #container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  input {
+    position: absolute;
+    z-index: 1000;
+  }
+
+  canvas {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 900;
+  }
+
+  #backgroundImg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 800;
+  }
+
+  #top {
+    position: absolute;
+    left: 45%;
+    z-index: 1000;
+    top: 10px;
+  }
+
+  #top :hover {
+    cursor: pointer;
+  }
+
+  #topLeft {
+    position: absolute;
+    font-size: 20px;
+    left: -50px;
+    top: 40px;
+  }
+
+  #topImg {
+    position: absolute;
+    width: 110px;
+    height: 110px;
+  }
+
+  #topRight {
+    position: absolute;
+    position: absolute;
+    font-size: 20px;
+    right: -160px;
+    top: 40px;
+  }
+
+  #topFont {
+    position: absolute;
+    color: white;
+    font-family: FZNew BaoSong-Z12S;
+    font-size: 36px;
+    top: 35px;
+    left: 37px;
+  }
+
+  #changeBtn {
+    position: absolute;
+    z-index: 1000;
+    left: 40%;
+  }
+</style>
+
+<body>
+  <div id="container">
+    <input type="color" value="#2291a9" />
+    <canvas id="tree"></canvas>
+    <!-- 背景图片 -->
+    <img :src='imgArr1[index]' id="backgroundImg">
+    <!-- 顶部导航 -->
+    <div id="top">
+      <div id="topLeft" :style="{'color':btnColors[index]}" @click="prev">
+        < </div>
+          <img :src='imgArr2[index]' id="topImg">
+          <div id="topFont" :style="{'color':fontColors[index]}">{{fontArr[index]}}</div>
+          <div id="topRight" :style="{'color':btnColors[index]}" @click="next"> > </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script>
+      let container = new Vue({
+        el: "#container",
+
+        data: {
+          fontArr: ['春', '夏', '秋', '冬', '黑', '白'],//主题名字
+          imgArr1: ['./pictures/spring1.png', './pictures/summer1.png', './pictures/autumn1.png', './pictures/winter1.png', './pictures/black1.png', './pictures/white1.png'],//背景图片
+          imgArr2: ['./pictures/spring.gif', './pictures/summer.gif', './pictures/autumn.gif', './pictures/winter.gif', './pictures/black.gif', './pictures/white.gif'],//春夏秋冬顶部导航图片
+          fontColors: ['rgba(255, 255, 255, 1)', 'rgba(50, 188, 187, 1)', 'rgb(202, 136, 89)', 'rgb(89, 89, 89)', 'rgb(255,255,255)', 'rgb(0,0,0)'],//春夏秋冬字体颜色
+          btnColors: ['rgba(255, 255, 255, 1)', 'rgba(255, 255, 255, 1)', 'rgba(255, 255, 255, 1)', 'rgba(218, 218, 218, 1)', 'rgb(255,255,255)', 'rgb(0,0,0)'],//切换的按钮的颜色
+          index: 0,
+          n: 0,
+        },
+        methods: {
+          next: function () {
+            if (this.index == this.imgArr1.length - 1) {
+              this.index = 0;
+            } else {
+              this.index++;
+            }
+            if (this.index == 4) {
+              this.n = 111;
+            } else {
+              this.n = 0;
+            }
+            this.clearCanvas();
+          },
+          prev: function () {
+            if (this.index == 0) {
+              this.index = this.imgArr1.length - 1;
+            } else {
+              this.index--;
+            }
+            this.clearCanvas();
+          },
+          clearCanvas: function () {
+            var c = document.getElementById("tree");
+            var cxt = c.getContext("2d");
+            cxt.clearRect(0, 0, c.width, c.height);
+          },
+        }
+      })
+
+      //夜晚荧光效果
+      let colorarr = ["#d5403c", "#f8da70", "#663181", "#f899a4", "#fca74d", "#90b951", "#308f93", "#428c35"]
+      let color = Math.floor(Math.random() * 8);
+      const tree = document.getElementById("tree");
+      tree.onclick = function () {
+        color = Math.floor(Math.random() * 8);
+      }
+      //随机数函数
+      function randomNum(minNum, maxNum) {
+        switch (arguments.length) {
+          case 1:
+            return parseInt(Math.random() * minNum + 1, 10);
+            break;
+          case 2:
+            return parseInt(Math.random() * (maxNum - minNum + 1) + minNum, 10);
+            break;
+          default:
+            return 0;
+            break;
+        }
+      }
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      const canvas = document.getElementById('tree');
+      canvas.width = width;
+      canvas.height = height;
+      let initX; //定义鼠标点击的x坐标
+      let initHeight;
+
+      //树枝集合对象
+      const branchSet = {
+        branches: [], //保存树枝的数组
+        canvas: canvas,
+
+        // 添加树枝的方法
+        add(branch) {
+          this.branches.push(branch);
+        },
+
+        // 移除树枝的方法
+        remove(branch) {
+          for (let index in this.branches) {
+            if (this.branches[index] === branch) this.branches.splice(index, 1);
+          }
+        },
+
+        // 调用每个树枝对象的进程方法
+        process() {
+          for (let index in this.branches) {
+            this.branches[index].process();
+          }
+        },
+      };
+
+      //树枝对象的构造函数
+      function Branch() {
+        this.ctx = canvas.getContext('2d');
+        this.x = initX; //初始x坐标;
+        this.y = height; //初始y坐标;
+        this.radius = 5; //初始树干半径
+        this.angle = Math.PI / 2;
+
+        this.fillStyle = '#000'; //树枝颜色
+        this.shadowColor = '#000'; //树枝阴影颜色
+        this.shadowBlur = 0; //树枝阴影模糊度
+
+        this.speed = width / 500; //生长速度
+        this.generation = 1; //树枝的代
+        this.distance = 0; //树枝长度
+        this.isBole = true;
+      }
+      //荧光树枝对象的构造函数
+      function nightBranch() {
+        this.ctx = canvas.getContext('2d');
+        this.x = initX; //初始x坐标;
+        this.y = height; //初始y坐标;
+        this.radius = 5; //初始树干半径
+        this.angle = Math.PI / 2;
+
+        this.fillStyle = 'white'; //树枝颜色
+        this.shadowColor = colorarr[color]; //树枝阴影颜色
+        this.shadowBlur = 3.8; //树枝阴影模糊度
+
+        this.speed = width / 500; //生长速度
+        this.generation = 1; //树枝的代
+        this.distance = 0; //树枝长度
+        this.isBole = true;
+      }
+
+      //树枝对象原型方法
+      Branch.prototype = {
+        // 树枝进程
+        process() {
+          //绘画函数
+          this.draw();
+          // 生长函数
+          this.iterate();
+          // 分支函数
+          this.split();
+          // 中止函数
+          this.die();
+
+        },
+        draw() {
+          let ctx = this.ctx;
+          ctx.save();
+          ctx.fillStyle = this.fillStyle;
+          ctx.shadowColor = this.shadowColor;
+          ctx.shadowBlur = this.shadowBlur;
+          ctx.beginPath();
+          ctx.moveTo(this.x, this.y);
+          // 通过在当前点画圆填充形成图形
+          ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+          ctx.closePath();
+          ctx.fill();
+          ctx.restore();
+        },
+        iterate() {
+          const X = this.speed * Math.cos(this.angle);
+          const Y = -this.speed * Math.sin(this.angle);
+
+          // 利用speed控制需要向上延伸的距离
+          this.x += X;
+          this.y += Y;
+
+          // 根据当前是第几代，减小半径值
+          this.radius *= 1 - this.generation / 300;
+
+          // 求出距离的增量
+          const raiseDistance = Math.sqrt(Math.pow(X, 2) + Math.pow(Y, 2));
+
+          // distance指的是当前的这一段树枝的长度
+          this.distance += raiseDistance;
+
+          // 控制speed的大小，使绘图时不至于在两个圆之间出现空白
+          if (this.speed > this.radius * 2) {
+            this.speed = this.radius * 2;
+          }
+
+          // 产生一个范围在（-0.1, 0.1)之间的随机数,对角度进行一个偏转
+          // this.angle += Math.random() / 5 - 0.1;
+        },
+        split() {
+          let splitTime = 0;
+
+          // 树干部分
+          if (this.generation === 1) {
+            splitTime = this.distance / (height - initHeight) - 0.2;
+          }
+          // 树枝部分
+          else if (this.generation < 5) splitTime = this.distance / (height - initHeight) - 0.05;
+
+          if (Math.random() < splitTime) {
+            // 生成n个后代树枝
+            const n = this.generation + Math.round(Math.random() * 2) + 1;
+            for (let i = 0; i < n - 1; i++) {
+              const branch = new Branch();
+              branch.x = this.x;
+              branch.y = this.y;
+              if (this.generation <= 2) {
+                branch.angle += Math.random() * Math.PI - Math.PI / 2;
+              } else {
+                branch.angle += -Math.random() * Math.PI * 3 / 4 + Math.PI / 2;
+              }
+
+              branch.radius = this.radius * 0.7; //枝条越来越细
+              branch.generation += this.generation;
+              branch.fillStyle = this.fillStyle;
+              branchSet.add(branch);
+            }
+            const branch = new Branch();
+            branch.x = this.x;
+            branch.y = this.y;
+            branch.angle += Math.random() * Math.PI / 32 * 2;
+            this.speed = 1;
+            branch.radius = this.radius * 0.6; //枝条越来越细
+            branch.generation += this.generation;
+            branch.fillStyle = this.fillStyle;
+            branchSet.add(branch);
+            branchSet.remove(this);
+          }
+        },
+        die() {
+          if (this.radius < 0.3 || this.y <= initHeight) branchSet.remove(this);
+          //如果树枝半径小于0.3或达到限定高度，停止生长
+        },
+      };
+      //荧光树枝对象原型方法
+      nightBranch.prototype = {
+        // 树枝进程
+        process() {
+          //绘画函数
+          this.draw();
+          // 生长函数
+          this.iterate();
+          // 分支函数
+          this.split();
+          // 中止函数
+          this.die();
+
+        },
+        draw() {
+          let ctx = this.ctx;
+          ctx.save();
+          ctx.fillStyle = this.fillStyle;
+          ctx.shadowColor = this.shadowColor;
+          ctx.shadowBlur = this.shadowBlur;
+          ctx.beginPath();
+          ctx.moveTo(this.x, this.y);
+          // 通过在当前点画圆填充形成图形
+          ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+          ctx.closePath();
+          ctx.fill();
+          ctx.restore();
+        },
+        iterate() {
+          const X = this.speed * Math.cos(this.angle);
+          const Y = -this.speed * Math.sin(this.angle);
+
+          // 利用speed控制需要向上延伸的距离
+          this.x += X;
+          this.y += Y;
+
+          // 根据当前是第几代，减小半径值
+          this.radius *= 1 - this.generation / 300;
+
+          // 求出距离的增量
+          const raiseDistance = Math.sqrt(Math.pow(X, 2) + Math.pow(Y, 2));
+
+          // distance指的是当前的这一段树枝的长度
+          this.distance += raiseDistance;
+
+          // 控制speed的大小，使绘图时不至于在两个圆之间出现空白
+          if (this.speed > this.radius * 2) {
+            this.speed = this.radius * 2;
+          }
+
+          // 产生一个范围在（-0.1, 0.1)之间的随机数,对角度进行一个偏转
+          // this.angle += Math.random() / 5 - 0.1;
+        },
+        split() {
+          let splitTime = 0;
+
+          // 树干部分
+          if (this.generation === 1) {
+            splitTime = this.distance / (height - initHeight) - 0.2;
+          }
+          // 树枝部分
+          else if (this.generation < 5) splitTime = this.distance / (height - initHeight) - 0.05;
+
+          if (Math.random() < splitTime) {
+            // 生成n个后代树枝
+            const n = this.generation + Math.round(Math.random() * 2) + 1;
+            for (let i = 0; i < n - 1; i++) {
+              const branch = new nightBranch();
+              branch.x = this.x;
+              branch.y = this.y;
+              if (this.generation <= 2) {
+                branch.angle += Math.random() * Math.PI - Math.PI / 2;
+              } else {
+                branch.angle += -Math.random() * Math.PI * 3 / 4 + Math.PI / 2;
+              }
+
+              branch.radius = this.radius * 0.7; //枝条越来越细
+              branch.generation += this.generation;
+              branch.fillStyle = this.fillStyle;
+              branchSet.add(branch);
+            }
+            const branch = new nightBranch();
+            branch.x = this.x;
+            branch.y = this.y;
+            branch.angle += Math.random() * Math.PI / 32 * 2;
+            this.speed = 1;
+            branch.radius = this.radius * 0.6; //枝条越来越细
+            branch.generation += this.generation;
+            branch.fillStyle = this.fillStyle;
+            branchSet.add(branch);
+            branchSet.remove(this);
+          }
+        },
+        die() {
+          if (this.radius < 0.3 || this.y <= initHeight) branchSet.remove(this);
+          //如果树枝半径小于0.3或达到限定高度，停止生长
+        },
+      };
+      canvas.addEventListener('click', () => {
+        initX = window.event.clientX;
+        initHeight = window.event.clientY;
+        if (container.n == 111) {
+          branch = new nightBranch();
+        } else {
+          branch = new Branch();
+        }
+        // 定义并添加最初始的树枝
+        branchSet.add(branch);
+        // 启动进程
+        branchSet.process();
+        // 制作动画效果
+        const Time = setInterval(function () {
+          branchSet.process();
+          if (branchSet.branches.length == 0) {
+            clearInterval(Time);
+          }
+        }, 16.7);
+      });
+    </script>
+</body>
+
+</html>
