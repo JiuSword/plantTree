@@ -28,7 +28,6 @@
       //树枝集合对象
       const branchSet = {
         branches: [], //保存树枝的数组
-        canvas: canvas,
 
         // 添加树枝的方法
         add(branch) {
@@ -55,7 +54,7 @@
         this.ctx = canvas.getContext('2d');
         this.x = initX; //初始x坐标;
         this.y = height; //初始y坐标;
-        this.radius = 10; //初始树干半径
+        this.radius = 6; //初始树干半径
         this.angle = Math.PI / 2;
 
         this.fillStyle = '#000'; //树枝颜色
@@ -63,7 +62,7 @@
         this.shadowBlur = 3; //树枝阴影模糊度
 
         this.speed = this.radius / 3; //生长速度
-        this.generation = 2; //树枝的代
+        this.generation = 1; //树枝的代
         this.distance = 0; //树枝长度
         this.type = true; //树枝类型
       }
@@ -108,17 +107,17 @@
 
           // 根据当前是第几代，减小半径值
           // this.radius *= 1 - this.generation / 300;
-          this.radius /= Math.pow(1.1, this.generation / 180);
+          this.radius /= Math.pow(1.1, this.generation / 90);
           // 求出距离的增量
-          const raiseDistance = Math.sqrt(Math.pow(X, 2) + Math.pow(Y, 2));
+          /* const raiseDistance = Math.sqrt(Math.pow(X, 2) + Math.pow(Y, 2));
+          console.log(raiseDistance, this.speed); */
 
           // distance指的是当前的这一段树枝的长度
-          this.distance += raiseDistance;
+          this.distance += this.speed;
 
           // 控制speed的大小，使绘图时不至于在两个圆之间出现空白
           if (this.speed > this.radius * 2) {
             this.speed = this.radius * 2;
-            console.log(this.radius, this.speed);
           }
 
           // 产生一个范围在（-0.1, 0.1)之间的随机数,对角度进行一个偏转
@@ -129,9 +128,52 @@
 
           //树干
           if (this.type) {
-            let count = Math.round(Math.random() + 2);
-            let deflectionAngle=
-          }
+            splitTime = this.distance / (height - initHeight) - 0.2;
+            if (Math.random() < splitTime) {
+              let count = Math.round(Math.random() + 3);
+              let deflectionAngle = (Math.random() * Math.PI) / 4 - Math.PI / 8;
+              const trunk = Math.floor(Math.random() * 3);
+              {
+                for (let i = 0; i < count; i++) {
+                  const branch = new Branch();
+                  branch.x = this.x;
+                  branch.y = this.y;
+                  branch.speed = this.radius / 3;
+                  branch.angle += deflectionAngle;
+                  branch.radius = this.radius * 0.6; //枝条越来越细
+                  branch.generation += this.generation;
+                  branch.fillStyle = this.fillStyle;
+                  branch.type = false;
+                  if (i === trunk) {
+                    branch.type = true;
+                    branch.radius = this.radius * (1 / this.generation);
+                  }
+                  branchSet.add(branch);
+                }
+                branchSet.remove(this);
+              }
+            }
+          } /* else {
+            splitTime = this.distance / (height - initHeight) - 0.05;
+            // Math.pow(1.1, this.generation / 180);
+            let count = Math.pow(this.generation, Math.random() + 2);
+            let deflectionAngle = Math.random() * Math.PI - Math.PI / 2;
+            if (Math.random() < splitTime) {
+              for (let i = 0; i < count; i++) {
+                const branch = new Branch();
+                branch.x = this.x;
+                branch.y = this.y;
+                branch.speed = this.radius / 3;
+                branch.angle += deflectionAngle;
+                branch.radius = this.radius * 0.3; //枝条越来越细
+                branch.generation += this.generation;
+                branch.fillStyle = this.fillStyle;
+                branch.type = false;
+                branchSet.add(branch);
+              }
+              branchSet.remove(this);
+            }
+          } */
 
           /* // 树干部分
           if (this.generation === 2) {
