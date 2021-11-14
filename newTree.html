@@ -157,6 +157,7 @@
       canvas.height = height;
       let initX; //定义鼠标点击的x坐标
       let initHeight;
+      let initRadius;
 
       //树枝集合对象
       const branchSet = {
@@ -188,7 +189,7 @@
         this.ctx = canvas.getContext('2d');
         this.x = initX; //初始x坐标;
         this.y = height; //初始y坐标;
-        this.radius = 5; //初始树干半径
+        this.radius = initRadius; //初始树干半径
         this.angle = Math.PI / 2;
 
         this.fillStyle = '#000'; //树枝颜色
@@ -213,7 +214,6 @@
           this.split();
           // 中止函数
           this.die();
-          console.log(this.generation);
         },
         draw() {
           let ctx = this.ctx;
@@ -303,7 +303,9 @@
       canvas.addEventListener('click', () => {
         initX = window.event.clientX;
         initHeight = window.event.clientY;
-
+        //树高控制初始半径
+        const percentage =  initHeight / height
+        initRadius = radiusType(percentage)
         // 定义并添加最初始的树枝
         branch = new Branch();
         branchSet.add(branch);
@@ -319,6 +321,23 @@
           }
         }, 16.7);
       });
+
+      function radiusType(percentage) {  
+        switch(true){
+            case 0<percentage&&percentage<0.2 : 
+              return Math.random()*(7-5+1)+5;
+              break;
+            case 0.2<=percentage&&percentage<0.7 :
+              return Math.random()*(6.5-4+1)+4;
+              break;
+            case 0.7<=percentage&&percentage<1.0 :
+              return Math.random()*(4-2+1)+2;
+              break;
+            default:
+              return 5;
+              break;
+          }
+      }
     </script>
 </body>
 
