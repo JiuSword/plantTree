@@ -160,11 +160,30 @@
       };
       let initX;
       const initY = height;
+      let initRadius;
+
+      function radiusType(percentage) {
+          switch(true){
+              case 0<percentage&&percentage<0.2 :
+                  return Math.random()*(7-5+1)+5;
+                  break;
+              case 0.2<=percentage&&percentage<0.7 :
+                  return Math.random()*(6.5-4+1)+4;
+                  break;
+              case 0.7<=percentage&&percentage<1.0 :
+                  return Math.random()*(4-2+1)+2;
+                  break;
+              default:
+                  return 5;
+                  break;
+          }
+      }
+
       function Branch() {
         this.x = initX;
         this.y = initY;
         this.ctx = canvas.getContext('2d');
-        this.radius = 5;
+        this.radius = initRadius; //初始树干半径
         this.angle = Math.PI / 2;
         this.rate = Math.tan(this.angle);
 
@@ -314,6 +333,9 @@
       canvas.addEventListener('click', () => {
         initX = window.event.clientX;
         initHeight = window.event.clientY;
+        //初始化树的半径
+          const percentage =  initHeight / height
+          initRadius = radiusType(percentage)
         const branch = new Branch();
         branchSet.add(branch);
         canvas.style = 'pointer-events:none';
