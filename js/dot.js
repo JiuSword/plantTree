@@ -22,10 +22,10 @@
 			cH: 500,
 
 			//粒子数目
-			numDot: 100,
+			numDot: 50,
 
 			//粒子半径
-			radDot: 15,
+			radDot: 10,
 
 			//大小是否不同
 			isRangeRad: true,
@@ -37,7 +37,7 @@
 			isLine: true,
 
 			//线条长度
-			lineDist: 75,
+			lineDist: 60,
 
 			//线条颜色
 			lineColor: "#FFFFFF",
