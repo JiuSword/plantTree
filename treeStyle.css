@@ -1,0 +1,106 @@
+@font-face {
+    font-family: FZNew BaoSong-Z12S;
+    font-weight: 200;
+    src: url('./FZNew BaoSong-Z12S.TTF');
+  }
+
+  body {
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    background-color: #ddd;
+    width: 100%;
+    height: 100vh;
+  }
+
+  #container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  input {
+    position: absolute;
+    z-index: 1000;
+  }
+
+  canvas {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 900;
+  }
+
+  #backgroundImg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 800;
+  }
+
+  #top {
+    position: absolute;
+    left: 45%;
+    z-index: 1000;
+    top: 10px;
+  }
+
+  #top :hover {
+    cursor: pointer;
+  }
+
+  #topLeft {
+    position: absolute;
+    font-size: 20px;
+    left: -50px;
+    top: 40px;
+  }
+
+  #topImg {
+    position: absolute;
+    width: 110px;
+    height: 110px;
+  }
+
+  #topRight {
+    position: absolute;
+    position: absolute;
+    font-size: 20px;
+    right: -160px;
+    top: 40px;
+  }
+
+  #topFont {
+    position: absolute;
+    color: white;
+    font-family: FZNew BaoSong-Z12S;
+    font-size: 36px;
+    top: 35px;
+    left: 37px;
+  }
+
+  #changeBtn {
+    position: absolute;
+    z-index: 1000;
+    left: 40%;
+  }
+
+  .snow-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 100001;
+  }
+  .viewport {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    /* z-index:-2; */
+    }
