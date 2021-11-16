@@ -49,19 +49,19 @@
     let container = new Vue({
       el: "#container",
       data: {
-        fontArr: ['春', '夏', '秋', '冬', '黑', '白'], //主题名字
+        fontArr: ['春', '夏', '秋', '冬', '黑'], //主题名字
         imgArr1: ['./pictures/spring1.png', './pictures/summer1.png', './pictures/autumn1.png',
-          './pictures/winter1.png', './pictures/black1.png', './pictures/white1.png'
+          './pictures/winter1.png', './pictures/black1.png'
         ], //背景图片
-        musicArr: ['./musics/spring1.mp3', './musics/summer1.wav', './musics/autumn1.wav', './musics/winter1.wav', './musics/night1.wav', './musics/day1.wav '],//背景音乐
+        musicArr: ['./musics/spring1.mp3', './musics/summer1.wav', './musics/autumn1.wav', './musics/winter1.wav', './musics/night1.wav'],//背景音乐
         imgArr2: ['./pictures/spring.gif', './pictures/summer.gif', './pictures/autumn.gif',
-          './pictures/winter.gif', './pictures/black.gif', './pictures/white.gif'
+          './pictures/winter.gif', './pictures/black.gif'
         ], //春夏秋冬顶部导航图片
         fontColors: ['rgba(255, 255, 255, 1)', 'rgba(50, 188, 187, 1)', 'rgb(202, 136, 89)', 'rgb(89, 89, 89)',
-          'rgb(255,255,255)', 'rgb(0,0,0)'
+          'rgb(255,255,255)'
         ], //春夏秋冬字体颜色
         btnColors: ['rgba(255, 255, 255, 1)', 'rgba(255, 255, 255, 1)', 'rgba(255, 255, 255, 1)',
-          'rgba(218, 218, 218, 1)', 'rgb(255,255,255)', 'rgb(0,0,0)'
+          'rgba(218, 218, 218, 1)', 'rgb(255,255,255)'
         ], //切换的按钮的颜色
         index: 0,
       },
@@ -149,7 +149,6 @@
 
         const index = this.branches.indexOf(branch);
         this.branches.splice(index, 1);
-        console.log(this.branches.length);
 
         //停止生长音乐播放
         if(this.branches.length==0){
@@ -160,7 +159,6 @@
 
       // 调用每个树枝对象的开始方法
       start() {
-        // console.log(this.branches);
         for (let index in this.branches) {
           this.branches[index].start();
         }
@@ -168,7 +166,6 @@
     };
 
     canvas.addEventListener('click', () => {
-      console.log("点击了")
       initX = window.event.clientX;
       initHeight = window.event.clientY;
       const branch = new Branch();
@@ -191,7 +188,6 @@
         if (branchSet.branches.length === 0) {
           clearInterval(Time);
           console.log(stop);
-          // canvas.style = 'pointer-events:click';
         }
       }, 4);
     });
