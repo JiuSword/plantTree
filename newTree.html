@@ -6,8 +6,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Document</title>
-  <link href="./treeStyle.css" rel="stylesheet" type="text/css"/>
+  <link href="./treeStyle.css" rel="stylesheet" type="text/css" />
 </head>
+
 <body>
   <div id="container">
     <input type="color" value="#2291a9" />
@@ -18,22 +19,32 @@
         <p>your browser not support canvas</p>
       </canvas>
     </div>
+    <div v-else-if="index==5">
+      <div class="viewport"></div>
+    </div>
     <div v-else>
       <img :src='imgArr1[index]' id="backgroundImg">
     </div>
-    <!-- <img :src='imgArr1[index]' id="backgroundImg"> -->
+    <!--背景音乐-->
+    <audio :src="musicArr[index]" loop autoplay id="backgroundMusic"></audio>
+    <!-- 生长音乐 -->
+    <audio src='./musics/grow1.wav' loop id="growMusic"></audio>
     <!-- 顶部导航 -->
     <div id="top">
-      <div id="topLeft" :style="{'color':btnColors[index]}" @click="prev">
-      </div>
+      <div id="topLeft" :style="{'color':btnColors[index]}" @click="prev"><</div>
       <img :src='imgArr2[index]' id="topImg">
       <div id="topFont" :style="{'color':fontColors[index]}">{{fontArr[index]}}</div>
       <div id="topRight" :style="{'color':btnColors[index]}" @click="next"> > </div>
     </div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-  <script src="./js/dot.js"></script>
   <script src="./js/branch.js"></script>
+  <script src="./js/dot.js"></script>
+
+  <script src="js/three.min.js"></script>
+  <script src="js/dat.gui.min.js"></script>
+  <script src="js/TweenMax.min.js"></script>
+  <script src="./js/bird.js"></script>
   <script></script>
   <script>
     let container = new Vue({
@@ -43,6 +54,7 @@
         imgArr1: ['./pictures/spring1.png', './pictures/summer1.png', './pictures/autumn1.png',
           './pictures/winter1.png', './pictures/black1.png', './pictures/white1.png'
         ], //背景图片
+        musicArr: ['./musics/spring1.mp3', './musics/summer1.wav', './musics/autumn1.wav', './musics/winter1.wav', './musics/night1.wav', './musics/day1.wav '],//背景音乐
         imgArr2: ['./pictures/spring.gif', './pictures/summer.gif', './pictures/autumn.gif',
           './pictures/winter.gif', './pictures/black.gif', './pictures/white.gif'
         ], //春夏秋冬顶部导航图片
@@ -85,7 +97,8 @@
           this.clearCanvas();
         },
         clearCanvas: function () {
-          var c = document.getElementById("tree");
+          // var c = document.getElementById("tree");
+          let c = this.$refs.tree;
           var cxt = c.getContext("2d");
           cxt.clearRect(0, 0, c.width, c.height);
         }
@@ -96,11 +109,30 @@
     const height = window.innerHeight;
     canvas.width = width;
     canvas.height = height;
+    let initX;
+    const initY = height;
+    let initRadius;
+
     window.onresize = function () {
       location.reload();
     };
-    let initX;
-    const initY = height;
+
+    function radiusType(percentage) {
+      switch (true) {
+        case 0 < percentage && percentage < 0.2:
+          return Math.random() * (7 - 5 + 1) + 5;
+          break;
+        case 0.2 <= percentage && percentage < 0.7:
+          return Math.random() * (6.5 - 4 + 1) + 4;
+          break;
+        case 0.7 <= percentage && percentage < 1.0:
+          return Math.random() * (4 - 2 + 1) + 2;
+          break;
+        default:
+          return 5;
+          break;
+      }
+    }
 
     const branchSet = {
       branches: [], //保存树枝的数组
@@ -118,6 +150,13 @@
 
         const index = this.branches.indexOf(branch);
         this.branches.splice(index, 1);
+        console.log(this.branches.length);
+
+        //停止生长音乐播放
+        if(this.branches.length==0){
+          let growMusic = document.getElementById('growMusic');
+          growMusic.pause();
+        }
       },
 
       // 调用每个树枝对象的开始方法
@@ -141,6 +180,12 @@
       // 启动进程
       branchSet.start();
 
+      //播放生长音乐
+      let growMusic = document.getElementById('growMusic');
+      let a = document.getElementById('backgroundMusic');
+      a.play();
+      growMusic.play();
+
       // 制作动画效果
       const Time = setInterval(function () {
         branchSet.start();
@@ -149,7 +194,7 @@
           console.log(stop);
           // canvas.style = 'pointer-events:click';
         }
-      }, 16.7);
+      }, 4);
     });
   </script>
 </body>

@@ -52,7 +52,7 @@ Branch.prototype = {
     },
 
     die() {
-        if (this.radius < 0.05) {
+        if (this.radius < 0.1) {
             branchSet.remove(this);
         }
     },
