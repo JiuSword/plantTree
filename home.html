@@ -5,38 +5,30 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Forest</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <link rel="stylesheet" type="text/css" href="./home.css">
 </head>
 
 <body>
     <div id="container">
-        <div id="changeImg">
-            <div id="pre" @click='pre'>  < </div>
-            <div id="next" @click='next'> > </div>
-        </div>
-        <!-- <div id="top">
-            <div>M</div>
-            <div>y</div>
-            <div>F</div>
-            <div>o</div>
-            <div>r</div>
-            <div>e</div>
-            <div>s</div>
-            <div>t</div>
-        </div> -->
-        <img :src="homeImg[index]" id="homeImg">
+        <img src="./pictures/homeBackground.png" id="homeImg">
+        <img src="./pictures/homeTitle.png" id="homeTitle">
         <a href="./newTree.html" id="start" @mouseenter='changeColor1' @mouseleave='changeColor2'
             :style="{'background': startBackground}">
             <div id="title">开始种树</div>
         </a>
-        <!-- <div id="introduction">
-            <h2>关于我们：</h2>
+        <div id="introduction" v-show='isShow'>
+            <i class="el-icon-close" id="close" @click='close'></i>
+            <h3>关于我们：</h3>
+            <br>
             <h3>组名：你说得队</h3>
-            <h3>成员</h3>
-            <br>
-            <br>
-        </div> -->
-        <a>
+            <h4>成员:贺维 张有权 蒋沛汛 范玮旻 曾琴</h3>
+                <br>
+                <h5>项目介绍：</h5>
+                <h6>四季轮回，白驹过隙，时间在一分一秒的流逝，不知你是否注意到门前那颗树是否也在四季的轮转中抽芽、繁密、凋落、伴随着我们一同成长。我们组这次项目的名字叫“my
+                    forest”，点击屏幕可以看到一棵树的生长历程，点击屏幕上方的走马灯可以感受四季或是黑夜中不同的类型的树木。</h6>
+        </div>
+        <a class="aboutContaienr" @click='open'>
             <div id="about" @mouseenter='changeColor3' @mouseleave='changeColor4'
                 :style="{'background': aboutBackground}">
                 <div class="point" :style="{'background': pointColor}"></div>
@@ -44,51 +36,41 @@
                 <div class="point" :style="{'background': pointColor}"></div>
             </div>
         </a>
-        </div>
-        <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-        <script>
-            let app = new Vue({
-                el: '#container',
-                data: {
-                    index: 0,
-                    startBackground: '',
-                    aboutBackground: '',
-                    pointColor: '',
-                    homeImg: ['./pictures/homeSpring.jpg', './pictures/homeSummer.jpg', './pictures/homeAutumn.jpg', './pictures/homeWinter.jpg', './pictures/homeBlack.jpg'],
-                    startBackgrounds: ['rgba(145, 217, 147, 1)', 'rgba(127, 208, 208, 1)', 'rgba(211, 196, 99, 1)', 'rgba(115, 115, 115, 1)', 'rgba(115, 115, 115, 1)'],
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script>
+        let app = new Vue({
+            el: '#container',
+            data: {
+                isShow: false,
+                startBackground: '',
+                aboutBackground: '',
+                pointColor: '',
+            },
+            methods: {
+                changeColor1() {
+                    this.startBackground = 'rgba(115, 115, 115, 1)';
                 },
-                methods: {
-                    changeColor1() {
-                        this.startBackground = this.startBackgrounds[this.index];
-                    },
-                    changeColor2() {
-                        this.startBackground = '';
-                    },
-                    changeColor3() {
-                        this.aboutBackground = 'rgba(255, 255, 255, 1)';
-                        this.pointColor = 'rgba(0, 0, 0, 1)';
-                    },
-                    changeColor4() {
-                        this.aboutBackground = '';
-                        this.pointColor = '';
-                    },
-                    pre() {
-                        if (this.index == 0) {
-                            this.index = this.homeImg.length - 1;
-                        } else {
-                            this.index--;
-                        }
-                    },
-                    next() {
-                        if (this.index == this.homeImg.length - 1) {
-                            this.index = 0;
-                        } else {
-                            this.index++;
-                        }
-                    }
+                changeColor2() {
+                    this.startBackground = '';
                 },
-            })
-        </script>
+                changeColor3() {
+                    this.aboutBackground = 'rgba(255, 255, 255, 1)';
+                    this.pointColor = 'rgba(0, 0, 0, 1)';
+                },
+                changeColor4() {
+                    this.aboutBackground = '';
+                    this.pointColor = '';
+                },
+                open() {
+                    this.isShow = true;
+                },
+                close() {
+                    this.isShow = false;
+                }
+            },
+        })
+    </script>
 </body>
 
 </html>
