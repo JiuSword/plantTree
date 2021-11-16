@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html lang="en">
 
 <head>
   <meta charset="UTF-8" />
@@ -101,9 +100,13 @@
 <body>
   <div id="container">
     <input type="color" value="#2291a9" />
-    <canvas id="tree"></canvas>
+    <canvas id="tree" ref='tree'></canvas>
     <!-- 背景图片 -->
     <img :src='imgArr1[index]' id="backgroundImg">
+    <!--背景音乐-->
+    <audio :src="musicArr[index]" loop autoplay id="backgroundMusic"></audio>
+    <!-- 生长音乐 -->
+    <audio src='./musics/grow1.wav' loop id="growMusic"></audio>
     <!-- 顶部导航 -->
     <div id="top">
       <div id="topLeft" :style="{'color':btnColors[index]}" @click="prev">
@@ -113,248 +116,261 @@
           <div id="topRight" :style="{'color':btnColors[index]}" @click="next"> > </div>
       </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-    <script>
-      let container = new Vue({
-        el: "#container",
-        data: {
-          fontArr: ['春', '夏', '秋', '冬', '黑', '白'],//主题名字
-          imgArr1: ['./pictures/spring1.png', './pictures/summer1.png', './pictures/autumn1.png', './pictures/winter1.png', './pictures/black1.png', './pictures/white1.png'],//背景图片
-          imgArr2: ['./pictures/spring.gif', './pictures/summer.gif', './pictures/autumn.gif', './pictures/winter.gif', './pictures/black.gif', './pictures/white.gif'],//春夏秋冬顶部导航图片
-          fontColors: ['rgba(255, 255, 255, 1)', 'rgba(50, 188, 187, 1)', 'rgb(202, 136, 89)', 'rgb(89, 89, 89)', 'rgb(255,255,255)', 'rgb(0,0,0)'],//春夏秋冬字体颜色
-          btnColors: ['rgba(255, 255, 255, 1)', 'rgba(255, 255, 255, 1)', 'rgba(255, 255, 255, 1)', 'rgba(218, 218, 218, 1)', 'rgb(255,255,255)', 'rgb(0,0,0)'],//切换的按钮的颜色
-          index: 0,
-        },
-        methods: {
-          next: function () {
-            if (this.index == this.imgArr1.length - 1) {
-              this.index = 0;
-            } else {
-              this.index++;
-            }
-            this.clearCanvas();
-          },
-          prev: function () {
-            if (this.index == 0) {
-              this.index = this.imgArr1.length - 1;
-            } else {
-              this.index--;
-            }
-            this.clearCanvas();
-          },
-          clearCanvas: function () {
-            var c = document.getElementById("tree");
-            var cxt = c.getContext("2d");
-            cxt.clearRect(0, 0, c.width, c.height);
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <script>
+    let container = new Vue({
+      el: "#container",
+      data: {
+        fontArr: ['春', '夏', '秋', '冬', '黑', '白'],//主题名字
+        imgArr1: ['./pictures/spring1.png', './pictures/summer1.png', './pictures/autumn1.png', './pictures/winter1.png', './pictures/black1.png', './pictures/white1.png'],//背景图片
+        imgArr2: ['./pictures/spring.gif', './pictures/summer.gif', './pictures/autumn.gif', './pictures/winter.gif', './pictures/black.gif', './pictures/white.gif'],//春夏秋冬顶部导航图片
+        musicArr: ['./musics/spring2.wav', './musics/summer1.wav', './musics/autumn1.wav', './musics/winter1.wav', './musics/night1.wav', './musics/day1.wav '],
+        fontColors: ['rgba(255, 255, 255, 1)', 'rgba(50, 188, 187, 1)', 'rgb(202, 136, 89)', 'rgb(89, 89, 89)', 'rgb(255,255,255)', 'rgb(0,0,0)'],//春夏秋冬字体颜色
+        btnColors: ['rgba(255, 255, 255, 1)', 'rgba(255, 255, 255, 1)', 'rgba(255, 255, 255, 1)', 'rgba(218, 218, 218, 1)', 'rgb(255,255,255)', 'rgb(0,0,0)'],//切换的按钮的颜色
+        index: 0,
+      },
+      methods: {
+        next: function () {
+          if (this.index == this.imgArr1.length - 1) {
+            this.index = 0;
+          } else {
+            this.index++;
           }
+          this.clearCanvas();
+        },
+        prev: function () {
+          if (this.index == 0) {
+            this.index = this.imgArr1.length - 1;
+          } else {
+            this.index--;
+          }
+          this.clearCanvas();
+        },
+        clearCanvas: function () {
+          let c = this.$refs.tree;
+          let cxt = c.getContext("2d");
+          cxt.clearRect(0, 0, c.width, c.height);
+        },
+      },
+    })
+    const canvas = document.getElementById('tree');
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
+    let initX;
+    const initY = height;
+    let initRadius;
 
+    window.onresize = function () {
+      location.reload();
+    };
+
+    function radiusType(percentage) {
+      switch (true) {
+        case 0 < percentage && percentage < 0.2:
+          return Math.random() * (7 - 5 + 1) + 5;
+          break;
+        case 0.2 <= percentage && percentage < 0.7:
+          return Math.random() * (6.5 - 4 + 1) + 4;
+          break;
+        case 0.7 <= percentage && percentage < 1.0:
+          return Math.random() * (4 - 2 + 1) + 2;
+          break;
+        default:
+          return 5;
+          break;
+      }
+    }
+
+    function Branch() {
+      this.x = initX;
+      this.y = initY;
+      this.ctx = canvas.getContext('2d');
+      this.radius = initRadius; //初始树干半径
+      this.angle = Math.PI / 2;
+      this.rate = Math.tan(this.angle);
+
+      this.fillStyle = '#000'; //树枝颜色
+      this.shadowColor = '#000'; //树枝阴影颜色
+      this.shadowBlur = 2; //树枝阴影模糊度
+
+      this.length = Math.random() * 60 + 60; //树枝长度
+      this.nowLength = 0; //当前长度
+      this.generation = 1; //代
+      this.raiseLength = this.radius; //每次增长长度
+    }
+    Branch.prototype = {
+      start() {
+        this.draw();
+        this.grow();
+        this.die();
+        this.branch();
+      },
+      draw() {
+        const ctx = this.ctx;
+        ctx.save();
+        ctx.fillStyle = this.fillStyle;
+        ctx.shadowColor = this.shadowColor;
+        ctx.shadowBlur = this.shadowBlur;
+        ctx.beginPath();
+        ctx.moveTo(this.x, this.y);
+        // 通过在当前点画圆填充形成图形
+        ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+        ctx.closePath();
+        ctx.fill();
+        ctx.restore();
+      },
+      grow() {
+        this.x += this.raiseLength * Math.cos(this.angle);
+        this.y -= this.raiseLength * Math.sin(this.angle);
+        this.nowLength += this.raiseLength;
+        // this.radius *= 1 - this.generation / 500;
+        this.radius /= Math.pow(1.1, this.generation / 200);
+
+        /* if (this.raiseLength > this.radius * 2) {
+          this.raiseLength = this.radius * 2;
+        } */
+      },
+      die() {
+        if (this.radius < 0.1) {
+          branchSet.remove(this);
         }
-      })
-      const canvas = document.getElementById('tree');
-      const width = window.innerWidth;
-      const height = window.innerHeight;
-      canvas.width = width;
-      canvas.height = height;
-      window.onresize = function () {
-        location.reload();
-      };
-      let initX;
-      const initY = height;
-      let initRadius;
-
-      function radiusType(percentage) {
-          switch(true){
-              case 0<percentage&&percentage<0.2 :
-                  return Math.random()*(7-5+1)+5;
-                  break;
-              case 0.2<=percentage&&percentage<0.7 :
-                  return Math.random()*(6.5-4+1)+4;
-                  break;
-              case 0.7<=percentage&&percentage<1.0 :
-                  return Math.random()*(4-2+1)+2;
-                  break;
-              default:
-                  return 5;
-                  break;
-          }
-      }
-
-      function Branch() {
-        this.x = initX;
-        this.y = initY;
-        this.ctx = canvas.getContext('2d');
-        this.radius = initRadius; //初始树干半径
-        this.angle = Math.PI / 2;
-        this.rate = Math.tan(this.angle);
-
-        this.fillStyle = '#000'; //树枝颜色
-        this.shadowColor = '#000'; //树枝阴影颜色
-        this.shadowBlur = 2; //树枝阴影模糊度
-
-        this.length = Math.random() * 60 + 60; //树枝长度
-        this.nowLength = 0; //当前长度
-        this.generation = 1; //代
-        this.raiseLength = this.radius; //每次增长长度
-      }
-      Branch.prototype = {
-        start() {
-          this.draw();
-          this.grow();
-          this.die();
-          this.branch();
-        },
-        draw() {
-          const ctx = this.ctx;
-          ctx.save();
-          ctx.fillStyle = this.fillStyle;
-          ctx.shadowColor = this.shadowColor;
-          ctx.shadowBlur = this.shadowBlur;
-          ctx.beginPath();
-          ctx.moveTo(this.x, this.y);
-          // 通过在当前点画圆填充形成图形
-          ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
-          ctx.closePath();
-          ctx.fill();
-          ctx.restore();
-        },
-        grow() {
-          this.x += this.raiseLength * Math.cos(this.angle);
-          this.y -= this.raiseLength * Math.sin(this.angle);
-          this.nowLength += this.raiseLength;
-          // this.radius *= 1 - this.generation / 500;
-          this.radius /= Math.pow(1.1, this.generation / 200);
-
-          /* if (this.raiseLength > this.radius * 2) {
-            this.raiseLength = this.radius * 2;
-          } */
-        },
-        die() {
-          if (this.radius < 0.05) {
-            branchSet.remove(this);
-          }
-        },
-        branch() {
-          if (this.nowLength >= this.length) {
-            // 主分支
-            const count = Math.random() - 0.5 > 0 ? 1 : 2;
-            for (let i = 0; i < count; i++) {
-              const topBranch = new Branch();
-              topBranch.x = this.x;
-              topBranch.y = this.y;
-              topBranch.generation += this.generation;
-
-              topBranch.radius = this.radius * 0.7; //(1 / this.generation);
-              topBranch.angle = this.angle + ((Math.random() * Math.PI) / 4 - Math.PI / 8);
-              topBranch.raiseLength = topBranch.radius / 2;
-
-              const symbol = Math.random() - 0.5 > 0 ? 1 : -1;
-              const deflectionAngle = (Math.random() * Math.PI) / 10 + Math.PI / 10;
-              branchSet.add(topBranch);
-            }
+      },
+      branch() {
+        if (this.nowLength >= this.length) {
+          // 主分支
+          const count = Math.random() - 0.5 > 0 ? 1 : 2;
+          for (let i = 0; i < count; i++) {
             const topBranch = new Branch();
             topBranch.x = this.x;
             topBranch.y = this.y;
             topBranch.generation += this.generation;
+
             topBranch.radius = this.radius * 0.7; //(1 / this.generation);
             topBranch.angle = this.angle + ((Math.random() * Math.PI) / 4 - Math.PI / 8);
             topBranch.raiseLength = topBranch.radius / 2;
 
             const symbol = Math.random() - 0.5 > 0 ? 1 : -1;
-            const deflectionAngle = (Math.random() * Math.PI) / 10 + Math.PI / 10; //偏转角度
-
-            //左分支
-            const leftBranch = new Branch();
-            leftBranch.x =
-              this.x +
-              (0.3 * this.nowLength + symbol * (this.nowLength * (Math.random() / 10 + 0.1))) *
-              Math.cos(Math.PI - this.angle);
-            leftBranch.y =
-              this.y +
-              (0.3 * this.nowLength + symbol * (this.nowLength * (Math.random() / 10 + 0.1))) *
-              Math.sin(this.angle);
-            leftBranch.generation += this.generation;
-            leftBranch.radius = this.radius * 0.6; //(1 / this.generation);
-            leftBranch.angle = this.angle + deflectionAngle;
-            leftBranch.raiseLength = leftBranch.radius / 2;
-            leftBranch.length =
-              this.length - 10 * this.generation > 0 ? this.length - 10 * this.generation : 10;
-
-            //右分支
-            const rightBranch = new Branch();
-            rightBranch.x =
-              this.x -
-              (0.3 * this.nowLength - symbol * (this.nowLength * (Math.random() / 10 + 0.1))) *
-              Math.cos(this.angle);
-            rightBranch.y =
-              this.y +
-              (0.3 * this.nowLength - symbol * (this.nowLength * (Math.random() / 10 + 0.1))) *
-              Math.sin(this.angle);
-
-            rightBranch.radius = this.radius * 0.6; //(1 / this.generation);
-            rightBranch.angle = this.angle - deflectionAngle;
-            rightBranch.raiseLength = rightBranch.radius / 2;
-            rightBranch.generation += this.generation;
-            rightBranch.length =
-              this.length - 10 * this.generation > 0 ? this.length - 10 * this.generation : 10;
-
-            branchSet.add(leftBranch);
-            branchSet.add(rightBranch);
-            branchSet.remove(this);
+            const deflectionAngle = (Math.random() * Math.PI) / 10 + Math.PI / 10;
+            branchSet.add(topBranch);
           }
-        },
-      };
-      const branchSet = {
-        branches: [], //保存树枝的数组
+          const topBranch = new Branch();
+          topBranch.x = this.x;
+          topBranch.y = this.y;
+          topBranch.generation += this.generation;
+          topBranch.radius = this.radius * 0.7; //(1 / this.generation);
+          topBranch.angle = this.angle + ((Math.random() * Math.PI) / 4 - Math.PI / 8);
+          topBranch.raiseLength = topBranch.radius / 2;
 
-        // 添加树枝的方法
-        add(branch) {
-          this.branches.push(branch);
-        },
+          const symbol = Math.random() - 0.5 > 0 ? 1 : -1;
+          const deflectionAngle = (Math.random() * Math.PI) / 10 + Math.PI / 10; //偏转角度
 
-        // 移除树枝的方法
-        remove(branch) {
-          /* for (let index in this.branches) {
-            if (this.branches[index] === branch) this.branches.splice(index, 1);
-          } */
+          //左分支
+          const leftBranch = new Branch();
+          leftBranch.x =
+            this.x +
+            (0.3 * this.nowLength + symbol * (this.nowLength * (Math.random() / 10 + 0.1))) *
+            Math.cos(Math.PI - this.angle);
+          leftBranch.y =
+            this.y +
+            (0.3 * this.nowLength + symbol * (this.nowLength * (Math.random() / 10 + 0.1))) *
+            Math.sin(this.angle);
+          leftBranch.generation += this.generation;
+          leftBranch.radius = this.radius * 0.6; //(1 / this.generation);
+          leftBranch.angle = this.angle + deflectionAngle;
+          leftBranch.raiseLength = leftBranch.radius / 2;
+          leftBranch.length =
+            this.length - 10 * this.generation > 0 ? this.length - 10 * this.generation : 10;
 
-          const index = this.branches.indexOf(branch);
-          this.branches.splice(index, 1);
-        },
+          //右分支
+          const rightBranch = new Branch();
+          rightBranch.x =
+            this.x -
+            (0.3 * this.nowLength - symbol * (this.nowLength * (Math.random() / 10 + 0.1))) *
+            Math.cos(this.angle);
+          rightBranch.y =
+            this.y +
+            (0.3 * this.nowLength - symbol * (this.nowLength * (Math.random() / 10 + 0.1))) *
+            Math.sin(this.angle);
 
-        // 调用每个树枝对象的开始方法
-        start() {
-          // console.log(this.branches);
-          for (let index in this.branches) {
-            this.branches[index].start();
-          }
-        },
-      };
+          rightBranch.radius = this.radius * 0.6; //(1 / this.generation);
+          rightBranch.angle = this.angle - deflectionAngle;
+          rightBranch.raiseLength = rightBranch.radius / 2;
+          rightBranch.generation += this.generation;
+          rightBranch.length =this.length - 10 * this.generation > 0 ? this.length - 10 * this.generation : 10;
+          branchSet.add(leftBranch);
+          branchSet.add(rightBranch);
+          branchSet.remove(this);
+        }
+      },
+    };
+    const branchSet = {
+      branches: [], //保存树枝的数组
 
-      canvas.addEventListener('click', () => {
-        initX = window.event.clientX;
-        initHeight = window.event.clientY;
-        //初始化树的半径
-          const percentage =  initHeight / height
-          initRadius = radiusType(percentage)
-        const branch = new Branch();
-        branchSet.add(branch);
-        canvas.style = 'pointer-events:none';
-        // 定义并添加最初始的树枝
+      // 添加树枝的方法
+      add(branch) {
+        this.branches.push(branch);
+      },
 
-        // 启动进程
+      // 移除树枝的方法
+      remove(branch) {
+        /* for (let index in this.branches) {
+          if (this.branches[index] === branch) this.branches.splice(index, 1);
+        } */
+
+        const index = this.branches.indexOf(branch);
+        this.branches.splice(index, 1);
+        console.log(this.branches.length);
+
+        //停止生长音乐播放
+        if(this.branches.length==0){
+          let growMusic = document.getElementById('growMusic');
+          growMusic.pause();
+        }
+
+      },
+
+      // 调用每个树枝对象的开始方法
+      start() {
+        // console.log(this.branches);
+        for (let index in this.branches) {
+          this.branches[index].start();
+        }
+      },
+    };
+
+    canvas.addEventListener('click', () => {
+      initX = window.event.clientX;
+      initHeight = window.event.clientY;
+      //初始化树的半径
+      const percentage = initHeight / height
+      initRadius = radiusType(percentage)
+      const branch = new Branch();
+      branchSet.add(branch);
+      canvas.style = 'pointer-events:none';
+      // 定义并添加最初始的树枝
+
+      // 启动进程
+      branchSet.start();
+
+      //播放生长音乐
+      let growMusic = document.getElementById('growMusic');
+      let a = document.getElementById('backgroundMusic');
+      a.play();
+      growMusic.play();
+
+      const Time = setInterval(function () {
         branchSet.start();
-
-        // 制作动画效果
-        const Time = setInterval(function () {
-          branchSet.start();
-          if (branchSet.branches.length === 0) {
-            clearInterval(Time);
-            console.log(stop);
-            canvas.style = 'pointer-events:click';
-          }
-        }, 16.7);
-      });
-    </script>
+        if (branchSet.branches.length === 0) {
+          clearInterval(Time);
+          console.log(stop);
+          canvas.style = 'pointer-events:click';
+        }
+      }, 4);
+    });
+  </script>
 </body>
 
 </html>
