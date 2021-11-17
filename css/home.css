@@ -89,8 +89,8 @@ body {
     position: absolute;
     top: 80vh;
     left: 47.2vw;
-    width: 2.5vw;
-    height: 2.5vw;
+    width: 3vw;
+    height: 3vw;
     border: 2px solid rgba(255, 255, 255, 1);
     border-radius: 50%;
     box-sizing: border-box;
@@ -100,7 +100,7 @@ body {
 .point {
     position: relative;
     top: 1.6vh;
-    left: 0.1vw;
+    left: 0vw;
     float: left;
     width: 0.3vw;
     height: 0.3vw;

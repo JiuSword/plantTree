@@ -10,6 +10,7 @@
 
 <body>
   <div id="container">
+    <a id="toHome" href="./home.html">返回主页</a>
     <canvas id="tree" @click="handleCanvas"></canvas>
     <!-- 背景图片 -->
     <div v-if="index==4">
@@ -30,24 +31,25 @@
     <div class="top">
       <div class="topLeft" :style="{'color':btnColors[index]}" @click="prev">
         &lt</div>
-          <img :src='imgArr2[index]' class="topImg">
-          <div class="topFont" :style="{'color':fontColors[index]}">{{fontArr[index]}}</div>
-          <div class="topRight" :style="{'color':btnColors[index]}" @click="next"> &gt </div>
-      </div>
+      <img :src='imgArr2[index]' class="topImg">
+      <div class="topFont" :style="{'color':fontColors[index]}">{{fontArr[index]}}</div>
+      <div class="topRight" :style="{'color':btnColors[index]}" @click="next"> &gt </div>
     </div>
-    <script src="./js/vue.js"></script>
-    <script src="./js/branch.js"></script>
-    <script src="./js/dot.js"></script>
+  </div>
+  </div>
+  <script src="./js/vue.js"></script>
+  <script src="./js/branch.js"></script>
+  <script src="./js/dot.js"></script>
 
-    <script src="js/three.min.js"></script>
-    <script src="js/dat.gui.min.js"></script>
-    <script src="js/TweenMax.min.js"></script>
-    <!-- <script src="./js/bird.js"></script> -->
-    <script  src="./js/main.js"></script>
-    <script>
+  <script src="js/three.min.js"></script>
+  <script src="js/dat.gui.min.js"></script>
+  <script src="js/TweenMax.min.js"></script>
+  <!-- <script src="./js/bird.js"></script> -->
+  <script src="./js/main.js"></script>
+  <script>
 
 
-    </script>
+  </script>
 </body>
 
 </html>

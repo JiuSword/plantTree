@@ -19,10 +19,16 @@
     height: 100%;
   }
 
-  input {
+  #toHome {
     position: absolute;
+    left: 2vw;
+    top: 2vh;
+    font-family: FZNew BaoSong-Z12S;
+    color: white;
     z-index: 1000;
+    font-size: 1vw;
   }
+  
 
   canvas {
     position: absolute;
