@@ -13,7 +13,7 @@
     <canvas id="tree" @click="handleCanvas"></canvas>
     <!-- 背景图片 -->
     <div v-if="index==4">
-      <canvas id="dot" style="background:linear-gradient(to bottom, #4e4b4d, #352b2c);z-index:-1">
+      <canvas id="dot" style="background:linear-gradient(to bottom, #4e4b4d, #352b2c);position: absolute; z-index:-1">
       </canvas>
     </div>
     <div v-else-if="index==5">
@@ -42,7 +42,7 @@
     <script src="js/three.min.js"></script>
     <script src="js/dat.gui.min.js"></script>
     <script src="js/TweenMax.min.js"></script>
-    <script src="./js/bird.js"></script>
+    <!-- <script src="./js/bird.js"></script> -->
     <script  src="./js/main.js"></script>
     <script>
 
