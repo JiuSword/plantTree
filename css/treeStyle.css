@@ -40,31 +40,31 @@
     z-index: 800;
   }
 
-  #top {
+  .top {
     position: absolute;
     left: 45%;
     z-index: 1000;
     top: 10px;
   }
 
-  #top :hover {
+  .top :hover {
     cursor: pointer;
   }
 
-  #topLeft {
+  .topLeft {
     position: absolute;
     font-size: 20px;
     left: -50px;
     top: 40px;
   }
 
-  #topImg {
+  .topImg {
     position: absolute;
     width: 110px;
     height: 110px;
   }
 
-  #topRight {
+  .topRight {
     position: absolute;
     position: absolute;
     font-size: 20px;
@@ -72,7 +72,7 @@
     top: 40px;
   }
 
-  #topFont {
+  .topFont {
     position: absolute;
     color: white;
     font-family: FZNew BaoSong-Z12S;
