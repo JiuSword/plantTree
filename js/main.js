@@ -150,13 +150,7 @@ const container = new Vue({
         },
     },
 });
-var topFont = document.getElementById("topFont");
-topFont.onclick = function () {
-    if (container.n == 4) {
-        window.location.href = "day.html";
-    }
-
-}
+ 
 const canvas = document.getElementById('tree');
 const width = window.innerWidth;
 const height = window.innerHeight;
