@@ -156,6 +156,7 @@ topFont.onclick = function(){
     window.location.href="day.html";
       } 
 }
+ 
 const canvas = document.getElementById('tree');
 const width = window.innerWidth;
 const height = window.innerHeight;
