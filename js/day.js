@@ -4,6 +4,7 @@ let container = new Vue({
         fontArr: ['白'],//主题名字
         imgArr1: ['./pictures/white1.png'],//背景图片
         imgArr2: ['./pictures/white.gif'],//春夏秋冬顶部导航图片
+        whiteMusic:'../musics/spring2.wav',
         fontColors: ['rgb(0,0,0)'],//春夏秋冬字体颜色
         btnColors: ['rgb(0,0,0)'],//切换的按钮的颜色
         index: 0,

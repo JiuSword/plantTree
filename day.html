@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,11 +8,11 @@
   <title>Document</title>
   <link href="./css/day.css" rel="stylesheet" type="text/css" />
 </head>
+
 <body>
-  <!--背景音乐-->
-   
   <div id="container">
-    
+    <!--背景音乐-->
+    <audio autoplay loop :src='whiteMusic'></audio>
     <canvas id="tree"></canvas>
     <!-- 背景图片 -->
     <img :src='imgArr1[index]' id="backgroundImg">
@@ -19,7 +20,7 @@
     <div id="top">
       <div id="topLeft" :style="{'color':btnColors[index]}">
       </div>
-      
+
       <img :src='imgArr2[index]' id="topImg">
       <a href="./newTree.html">
         <div id="topFont" :style="{'color':fontColors[index]}">{{fontArr[index]}}</div>
@@ -31,4 +32,5 @@
   <script src="./js/day.js"></script>
   <script src="./js/main.js"></script>
 </body>
+
 </html>

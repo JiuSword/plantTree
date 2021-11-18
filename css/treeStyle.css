@@ -21,12 +21,12 @@
 
   #toHome {
     position: absolute;
-    left: 2vw;
-    top: 2vh;
+    left: 3vw;
+    top: 3vh;
     font-family: FZNew BaoSong-Z12S;
     color: white;
     z-index: 1000;
-    font-size: 1vw;
+    font-size: 2vw;
   }
   
 
