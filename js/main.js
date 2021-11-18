@@ -169,6 +169,8 @@ let colorArr = [
   '#308f93',
   '#428c35',
 ];
+
+
 let color;
 const tree = document.getElementById('tree');
 tree.onclick = function () {

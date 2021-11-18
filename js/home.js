@@ -14,7 +14,7 @@ const app = new Vue({
       this.startBackground = '';
     },
     changeColor3() {
-      this.aboutBackground = 'rgba(255, 255, 255, 1)';
+      this.aboutBackground = 'rgba(215, 215, 215, 1)';
       this.pointColor = 'rgba(0, 0, 0, 1)';
     },
     changeColor4() {
