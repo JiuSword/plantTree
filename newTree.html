@@ -17,11 +17,8 @@
       <canvas id="dot" style="background:linear-gradient(to bottom, #4e4b4d, #352b2c);position: absolute; z-index:-1">
       </canvas>
     </div>
-    <div v-else-if="index==5">
-      <div class="viewport"></div>
-    </div>
     <div v-else>
-      <img :src='imgArr1[index]' id="backgroundImg">
+       <img :src='imgArr1[index]' class="backgroundImg"> -->
     </div>
     <!--背景音乐-->
     <audio :src="musicArr[index]" loop autoplay id="backgroundMusic"></audio>
