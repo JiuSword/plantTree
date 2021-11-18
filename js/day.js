@@ -13,8 +13,13 @@ var treeCanvas = document.getElementById("tree");
 treeCanvas.width = window.innerWidth;
 treeCanvas.height = window.innerHeight;
 var tCxt = treeCanvas.getContext("2d");
-var rootTop = 750;//树起始位置
+var rootTop =  window.innerHeight;//树起始位置
 var treeColor2 = "#45340b";//树颜色
+
+window.onresize = function () { 
+    location.reload();
+};
+
 function randomNum(minNum, maxNum) {
     switch (arguments.length) {
         case 1:
