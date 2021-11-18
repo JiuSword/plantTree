@@ -104,6 +104,7 @@ h5{
     border-radius: 50%;
     box-sizing: border-box;
     z-index: 99;
+    cursor: pointer;
 }
 .aboutUsContext{
     position: relative;
