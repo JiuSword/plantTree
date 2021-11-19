@@ -26,9 +26,9 @@ body {
 
 .homeTitle {
     position: absolute;
-    width: 33vw;
+    width: 36vw;
     top: 20vh;
-    left: 32.2vw;
+    left: 31vw;
     z-index: 99;
 }
 .start {
@@ -44,8 +44,8 @@ body {
 
 .title {
     position: relative;
-    width: 6vw;
-    height: 6vw;
+    width: 5vw;
+    height: 5vw;
     border: 0.105vw solid rgba(255, 255, 255, 1);
     border-radius: 50%;
 }
@@ -98,8 +98,8 @@ h5{
 }
 .about {
     position: absolute;
-    width: 4vw;
-    height: 4vw;
+    width: 3.5vw;
+    height: 3.5vw;
     border: 1px solid rgba(255, 255, 255, 1);
     border-radius: 50%;
     box-sizing: border-box;
