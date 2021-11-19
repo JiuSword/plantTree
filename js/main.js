@@ -95,7 +95,12 @@ const container = new Vue({
                 }
             }, 4);
         },
-
+      loading(){
+        document.getElementById("layout").style.display = "block";
+        setTimeout(function(){
+            document.getElementById("layout").style.display = "none";
+            },500)
+      },
         next() {
             if (branchSet.branches.length) {
                 return;
@@ -107,18 +112,28 @@ const container = new Vue({
             }
             if (this.index == 0) {
                 this.n = 0;
+                this.loading();
+                 
             } else if (this.index == 1) {
                 this.n = 1;
+                this.loading();
+                
             } else if (this.index == 2) {
                 this.n = 2;
+                this.loading();
             } else if (this.index == 3) {
                 this.n = 3;
+                this.loading();
             } else {
                 this.n = 4;
+                this.loading();
             }
             this.clearCanvas();
         },
         prev() {
+            
+                 
+               
             if (branchSet.branches.length) {
                 return;
             }
@@ -129,14 +144,19 @@ const container = new Vue({
             }
             if (this.index == 0) {
                 this.n = 0;
+                this.loading();
             } else if (this.index == 1) {
                 this.n = 1;
+                this.loading();
             } else if (this.index == 2) {
                 this.n = 2;
+                this.loading();
             } else if (this.index == 3) {
                 this.n = 3;
+                this.loading();
             } else {
                 this.n = 4;
+                this.loading();
             }
             this.clearCanvas();
         },
@@ -153,7 +173,7 @@ const container = new Vue({
 const topFont = document.getElementById("topFont");
 topFont.onclick = function(){
   if ( container.n == 4) {
-    window.location.href="loading.html";
+    window.location.href="day.html";
       } 
 }
  
