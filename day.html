@@ -1,54 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link href="./css/day.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="./css/loading.css" />
+    <link rel="shortcut icon" href="./pictures/tree.png" />
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <link href="./css/day.css" rel="stylesheet" type="text/css" />
-  <link rel="stylesheet" href="./css/loading.css">
-</head>
-
-<body>
-  <div id="layout" class="layout"> 
-    <div align="center">
-      <img class="loading" src="./pictures/loading.png" alt="">
-      <div class="loadingFive">
+  <body>
+    <div id="layout" class="layout">
+      <div align="center">
+        <img class="loading" src="./pictures/loading.png" alt="" />
+        <div class="loadingFive">
           <span></span>
           <span></span>
           <span></span>
           <span></span>
           <span></span>
+        </div>
       </div>
-  </div>
-  </div>
-  <div id="container">
-    <!--背景音乐-->
-    <audio autoplay loop :src='whiteMusic'></audio>
-    <canvas id="tree"></canvas>
-    <!-- 背景图片 -->
-    <img :src='imgArr1[index]' id="backgroundImg">
-    <!-- 顶部导航 -->
-    <div id="top">
-      <div id="topLeft" :style="{'color':btnColors[index]}">
-      </div>
-
-      <img :src='imgArr2[index]' id="topImg">
-      <a href="./newTree.html">
-        <div id="topFont" :style="{'color':fontColors[index]}">{{fontArr[index]}}</div>
-      </a>
-      <div id="topRight" :style="{'color':btnColors[index]}"> </div>
     </div>
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-  <script src="./js/day.js"></script>
-  <script src="./js/main.js"></script>
-  <script>
-    setTimeout(function(){
-            document.getElementById("layout").style.display = "none";
-            },1500)
-  </script>
-</body>
+    <div id="container">
+      <!--背景音乐-->
+      <audio autoplay loop :src="whiteMusic"></audio>
+      <canvas id="tree"></canvas>
+      <!-- 背景图片 -->
+      <img :src="imgArr1[index]" id="backgroundImg" />
+      <!-- 顶部导航 -->
+      <div id="top">
+        <div id="topLeft" :style="{'color':btnColors[index]}"></div>
 
+        <img :src="imgArr2[index]" id="topImg" />
+        <a href="./newTree.html">
+          <div id="topFont" :style="{'color':fontColors[index]}">{{fontArr[index]}}</div>
+        </a>
+        <div id="topRight" :style="{'color':btnColors[index]}"></div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="./js/day.js"></script>
+    <script src="./js/main.js"></script>
+    <script>
+      setTimeout(function () {
+        document.getElementById('layout').style.display = 'none';
+      }, 800);
+    </script>
+  </body>
 </html>

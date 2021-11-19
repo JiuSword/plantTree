@@ -9,11 +9,11 @@
   <link href="./css/treeStyle.css" rel="stylesheet" type="text/css" />
   <link rel="shortcut icon" href="./pictures/tree.png" >
   <link rel="stylesheet" href="./css/day.css">
-  <link rel="stylesheet" href="./css/loading.css">
+  <!-- <link rel="stylesheet" href="./css/loading.css"> -->
 </head>
 
 <body>
-  <div id="layout" class="layout"> 
+  <!-- <div id="layout" class="layout"> 
     <div align="center">
       <img class="loading" src="./pictures/loading.png" alt="">
       <div class="loadingFive">
@@ -23,7 +23,7 @@
           <span></span>
           <span></span>
       </div>
-  </div>
+  </div> -->
   </div>
   <div id="container">
     <a id="toHome" href="./index.html">
@@ -32,8 +32,9 @@
     <canvas id="tree" @click="handleCanvas"></canvas>
     <!-- 背景图片 -->
     <div v-if="index==4">
-      <canvas id="dot" style="background:linear-gradient(to bottom, #4e4b4d, #352b2c);position: absolute; z-index:-1">
-      </canvas>
+      <!-- <canvas id="dot" style="background:linear-gradient(to bottom, #4e4b4d, #352b2c);position: absolute; z-index:-1">
+      </canvas> -->
+      <img :src='imgArr1[index]' class="backgroundImg"> -->
     </div>
     <div v-else>
        <img :src='imgArr1[index]' class="backgroundImg"> -->

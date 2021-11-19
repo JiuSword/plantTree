@@ -41,7 +41,7 @@ const container = new Vue({
     n: 0,
   },
   created() {
-    this.loading();
+    // this.loading();
   },
   watch: {
     index(value) {
@@ -98,12 +98,12 @@ const container = new Vue({
         }
       }, 4);
     },
-    loading() {
+    /* loading() {
       document.getElementById('layout').style.display = 'block';
       setTimeout(function () {
         document.getElementById('layout').style.display = 'none';
       }, 500);
-    },
+    }, */
     next() {
       if (branchSet.branches.length) {
         return;
