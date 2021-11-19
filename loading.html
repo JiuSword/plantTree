@@ -1,0 +1,35 @@
+<html>
+
+<head>
+    <title>Loading.....</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+    <script language="JavaScript">
+        var url = 'day.html';
+    </script>
+    <link rel="stylesheet" href="./css/loading.css">
+</head>
+
+<body scroll="no" bgcolor="#FFFFFF" onLoad="location.href = url">
+    <div>
+        <div align="center">
+            <img class="loading" src="./pictures/loading.png" alt="">
+            <div class="loadingFive">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <script>
+            if (document.layers)
+                document.write('<Layer src="' + url + ' " VISIBILITY="hide"> </Layer>');
+            else if (document.all || document.getElementById)
+                document.write('<iframe src="' + url + '" style="visibility: hidden;"></iframe>');
+            else location.href = url;
+        </script>
+        </p>
+    </div>
+</body>
+
+</html>

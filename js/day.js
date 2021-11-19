@@ -20,7 +20,6 @@ var treeColor2 = "#45340b";//树颜色
 window.onresize = function () { 
     location.reload();
 };
-
 function randomNum(minNum, maxNum) {
     switch (arguments.length) {
         case 1:

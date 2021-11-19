@@ -153,7 +153,7 @@ const container = new Vue({
 const topFont = document.getElementById("topFont");
 topFont.onclick = function(){
   if ( container.n == 4) {
-    window.location.href="day.html";
+    window.location.href="loading.html";
       } 
 }
  
