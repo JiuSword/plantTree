@@ -84,7 +84,7 @@ function nightBranch() {
   this.fillStyle = 'white'; //树枝颜色
   this.shadowBlur = 0.8; //树枝阴影模糊度
   this.shadowColor = colorArr[color];
-  this.length = Math.random() * 60 + 60; //树枝长度
+  this.length = Math.random() * 60 + 40; //树枝长度
   this.nowLength = 0; //当前长度
   this.generation = 1; //代
   this.raiseLength = this.radius; //每次增长长度
